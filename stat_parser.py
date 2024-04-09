@@ -12,7 +12,24 @@ for json_file in json_files:
         data = json.load(f)
         data_list[json_file[:-5]] = data
 
-interesting_stats = [
+# https://minecraft.wiki/w/Statistics
+
+bac_columns = ['UUID', 'Time', 'Distance By Elytra', 'Fireworks Used', 'Deaths', 'Totems Used', 'Shulkers Opened', 'Diamond Pickaxe Uses', 'Diamond Shovel Uses', 'Diamond Axe Uses', 'Diamond Hoe Uses']
+bac_stats = [
+    ["stats", "minecraft:custom", "minecraft:play_time"],
+    ["stats", "minecraft:custom", "minecraft:aviate_one_cm"],
+    ["stats", "minecraft:used", "minecraft:firework_rocket"],
+    ["stats", "minecraft:custom", "minecraft:deaths"],
+    ["stats", "minecraft:used", "minecraft:totem_of_undying"],
+    ["stats", "minecraft:custom", "minecraft:open_shulker_box"],
+    ["stats", "minecraft:used", "minecraft:diamond_pickaxe"],
+    ["stats", "minecraft:used", "minecraft:diamond_shovel"],
+    ["stats", "minecraft:used", "minecraft:diamond_axe"],
+    ["stats", "minecraft:used", "minecraft:diamond_hoe"],
+]
+
+melon_columns = ['UUID', 'Melons', 'Time', 'Dirt Mined', 'Grass Mined', 'Dirt Used', 'Grass Used', 'Moss Used', 'Distance By Elytra', 'Fireworks Used', 'Melon Seeds Used']
+melon_stats = [
     ["stats", "minecraft:picked_up", "minecraft:melon_slice"],
     ["stats", "minecraft:custom", "minecraft:play_time"],
     ["stats", "minecraft:mined", "minecraft:dirt"],
@@ -25,6 +42,9 @@ interesting_stats = [
     ["stats", "minecraft:used", "minecraft:melon_seeds"],
 ]
 
+columns = bac_columns
+interesting_stats = bac_stats
+
 indiv_counts = defaultdict(list)
 count = 0
 for uuid in data_list:
@@ -36,7 +56,6 @@ for uuid in data_list:
         else:
             indiv_counts[uuid].append(0)
 
-columns = ['UUID', 'Melons', 'Time', 'Dirt Mined', 'Grass Mined', 'Dirt Used', 'Grass Used', 'Moss Used', 'Distance By Elytra', 'Fireworks Used', 'Melon Seeds Used']
 with open('stats.csv', mode='w', newline='') as f:
     writer = csv.writer(f)
     writer.writerow(columns)
