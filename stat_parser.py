@@ -53,14 +53,20 @@ for uuid in data_list:
 
     # Mojang API Request - UUID to IGN
     r = requests.get('https://sessionserver.mojang.com/session/minecraft/profile/' + uuid)
-    indiv_counts[uuid].append(r.json()['name'])
 
+    try:
+        indiv_counts[uuid].append(r.json()['name'])
+    
+    except ValueError:
+        print(f"Error getting data for UUID {uuid}")
+        indiv_counts[uuid].append(uuid)
+    
     for stat in interesting_stats:
-        if stat[0] in stats_file and stat[1] in stats_file[stat[0]] and stat[2] in stats_file[stat[0]][stat[1]]:
-            stat_count = stats_file[stat[0]][stat[1]][stat[2]]
-            indiv_counts[uuid].append(stat_count)
-        else:
-            indiv_counts[uuid].append(0)
+            if stat[0] in stats_file and stat[1] in stats_file[stat[0]] and stat[2] in stats_file[stat[0]][stat[1]]:
+                stat_count = stats_file[stat[0]][stat[1]][stat[2]]
+                indiv_counts[uuid].append(stat_count)
+            else:
+                indiv_counts[uuid].append(0)
 
 with open('stats.csv', mode='w', newline='') as f:
     writer = csv.writer(f)
